@@ -85,12 +85,8 @@ This app allows the user to apply a filter to the camera while taking a photo an
     * Feed
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="https://github.com/amwhite48/LiveFilter/blob/master/wireframes-1.jpg" width=900>
 
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
 
 ## Schema 
 [This section will be completed in Unit 9]

@@ -55,5 +55,6 @@
         android:layout_below="@+id/tvUsername"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="6dp"
+        android:layout_marginRight="6dp"
         tools:text="y'all i made a filter. look at it. it changes the picture a little bit and i hope anyone seeing this finds it useful for their photos! signing off, username" />
 </RelativeLayout>

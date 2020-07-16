@@ -1,5 +1,6 @@
 package com.example.livefilter.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.livefilter.LoginActivity;
 import com.example.livefilter.R;
+import com.parse.ParseUser;
 
 
 public class ProfileFragment extends Fragment {
@@ -39,7 +42,14 @@ public class ProfileFragment extends Fragment {
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // log out current user
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+                // navigate to login activity
+                Intent intent = new Intent(view.getContext(), LoginActivity.class);
+                startActivity(intent);
+                // make it so user can't go back to activity
+                getActivity().finish();
             }
         });
     }

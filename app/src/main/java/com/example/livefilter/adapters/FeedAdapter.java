@@ -1,6 +1,7 @@
 package com.example.livefilter.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.livefilter.Details;
 import com.example.livefilter.R;
 import com.example.livefilter.models.FilterPost;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -49,7 +53,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return filters.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvName;
         private TextView tvDescription;
@@ -65,7 +69,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivBefore = itemView.findViewById(R.id.ivBefore);
             ivAfter = itemView.findViewById(R.id.ivAfter);
+
+            // add OnClickListener to itemView
+            itemView.setOnClickListener(this);
         }
+
 
         public void bind(FilterPost filterPost) {
             // bind post data to view elements
@@ -81,6 +89,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             if(afterImage != null) {
                 Glide.with(context).load(afterImage.getUrl()).into(ivAfter);
             }
+        }
+
+        // when clicked, launch filter details activity
+        @Override
+        public void onClick(View view) {
+            // get adapter position
+            int position = getAdapterPosition();
+            // if position is valid, show activity
+            if (position != RecyclerView.NO_POSITION) {
+                FilterPost filterPost = filters.get(position);
+                // make intent for new activity and parcel filter details into new intent
+                Intent intent = new Intent(context, Details.class);
+                intent.putExtra(FilterPost.class.getSimpleName(), Parcels.wrap(filterPost));
+                // start new activity
+                context.startActivity(intent);
+            }
+
         }
     }
 }

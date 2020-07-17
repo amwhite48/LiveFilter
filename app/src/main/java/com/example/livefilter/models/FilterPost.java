@@ -6,7 +6,10 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.parceler.Parcel;
+
 @ParseClassName("Filter")
+@Parcel(analyze={FilterPost.class})
 public class FilterPost extends ParseObject {
 
     public static final String KEY_USER = "user";
@@ -14,6 +17,9 @@ public class FilterPost extends ParseObject {
     public static final String KEY_NAME = "filterName";
     public static final String KEY_BEFORE = "beforeImage";
     public static final String KEY_AFTER = "afterImage";
+
+    public FilterPost() {
+    }
 
     public String getName() {
         return getString(KEY_NAME);

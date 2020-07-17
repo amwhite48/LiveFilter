@@ -55,4 +55,10 @@
         android:layout_marginRight="6dp"
         tools:text="y'all i made a filter. look at it. it changes the picture a little bit and i hope anyone seeing this finds it useful for their photos! signing off, username"/>
 
+    <Button
+        android:id="@+id/btTryFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Try it!" />
+
 </LinearLayout>

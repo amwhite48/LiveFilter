@@ -53,7 +53,7 @@ public class Details extends AppCompatActivity {
         if(afterImage != null) {
             Glide.with(this).load(afterImage.getUrl()).into(ivAfter);
         }
-        
+
 
     }
 }

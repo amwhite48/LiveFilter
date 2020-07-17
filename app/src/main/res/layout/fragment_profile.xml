@@ -5,10 +5,25 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProfileFragment">
 
-    <Button
-        android:id="@+id/btLogOut"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="log out" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btLogOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="log out" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvProPosts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+
 
 </FrameLayout>

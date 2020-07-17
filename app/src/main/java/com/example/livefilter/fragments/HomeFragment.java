@@ -62,11 +62,15 @@ public class HomeFragment extends Fragment {
         queryFilters();
     }
 
-    private void queryFilters() {
+    protected void queryFilters() {
         // make a new query to get filters
         ParseQuery<FilterPost> query = ParseQuery.getQuery(FilterPost.class);
         // include user in information retrieved
         query.include(FilterPost.KEY_USER);
+
+        query.setLimit(20);
+        query.addDescendingOrder(FilterPost.KEY_CREATED_AT);
+
         // search for filter displays in background
         query.findInBackground(new FindCallback<FilterPost>() {
             @Override

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Details">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tvNameD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:textAlignment="center"
         android:textSize="24sp"
         tools:text="Filter name" />
 
     <LinearLayout
-        android:id="@+id/imageContainer"
+        android:id="@+id/imageContainerD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
         android:layout_marginTop="6dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="6dp">
 
         <ImageView
-            android:id="@+id/ivBefore"
+            android:id="@+id/ivBeforeD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
-            android:id="@+id/ivAfter"
+            android:id="@+id/ivAfterD"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -39,22 +39,20 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvUsername"
+        android:id="@+id/tvUsernameD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageContainer"
-        android:layout_alignParentStart="true"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
         tools:text="username" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/tvDescriptionD"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUsername"
         android:layout_marginLeft="6dp"
         android:layout_marginTop="6dp"
         android:layout_marginRight="6dp"
-        tools:text="y'all i made a filter. look at it. it changes the picture a little bit and i hope anyone seeing this finds it useful for their photos! signing off, username" />
-</RelativeLayout>
+        tools:text="y'all i made a filter. look at it. it changes the picture a little bit and i hope anyone seeing this finds it useful for their photos! signing off, username"/>
+
+</LinearLayout>

@@ -7,28 +7,37 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.livefilter.LoginActivity;
 import com.example.livefilter.R;
+import com.example.livefilter.adapters.FeedAdapter;
 import com.example.livefilter.models.FilterPost;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProfileFragment extends HomeFragment {
+public class ProfileFragment extends Fragment {
 
+    public static final String TAG = "ProfileFragment";
     Button btLogout;
     View view;
+    RecyclerView rvFilters;
+    FeedAdapter adapter;
+    List<FilterPost> myPosts;
+    TextView tvProfName;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -47,7 +56,18 @@ public class ProfileFragment extends HomeFragment {
         this.view = view;
         super.onViewCreated(view, savedInstanceState);
 
+        tvProfName = view.findViewById(R.id.tvProfName);
         btLogout =  view.findViewById(R.id.btLogOut);
+        // set recyclerview to one from profile view
+        rvFilters = view.findViewById(R.id.rvProPosts);
+
+        myPosts = new ArrayList<>();
+        adapter = new FeedAdapter(view.getContext(), myPosts);
+
+        // set adapter on RecyclerView
+        rvFilters.setAdapter(adapter);
+        // set layout manager on recyclerview
+        rvFilters.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         btLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,17 +82,14 @@ public class ProfileFragment extends HomeFragment {
                 getActivity().finish();
             }
         });
+
+        // set profile name text to name of current user
+        tvProfName.setText(ParseUser.getCurrentUser().getUsername());
+
+        queryFilters();
     }
 
-    @Override
     protected void queryFilters() {
-        // set recyclerview to one from profile view
-        rvFilters = view.findViewById(R.id.rvProPosts);
-
-        // set adapter on RecyclerView
-        rvFilters.setAdapter(adapter);
-        // set layout manager on recyclerview
-        rvFilters.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
 
         // make a new query to get filters
@@ -97,7 +114,7 @@ public class ProfileFragment extends HomeFragment {
                 }
 
                 // save received posts, notify adapter of changes
-                allPosts.addAll(filterPosts);
+                myPosts.addAll(filterPosts);
                 adapter.notifyDataSetChanged();
             }
         });    }

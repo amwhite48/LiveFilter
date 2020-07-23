@@ -46,5 +46,7 @@ dependencies {
     // parceler for details activity
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+    // GPU image for Android
+    implementation 'jp.co.cyberagent.android:gpuimage:2.0.4'
 
 }

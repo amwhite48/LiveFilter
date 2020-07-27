@@ -1,9 +1,7 @@
 package com.example.livefilter.fragments;
 
-import android.Manifest;
-import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,31 +11,35 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
-import com.example.livefilter.MainActivity;
 import com.example.livefilter.R;
 import com.example.livefilter.models.CameraLoader;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-import jp.co.cyberagent.android.gpuimage.GPUImage;
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
-import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
 
 
 public class CameraFragment extends Fragment {
     public static final String TAG = "CameraFragment";
     public static final int CAPTURE_IMAGE_REQUEST_CODE = 24;
+    public static final int WRITE_REQUEST_CODE = 35;
 
     private File photoFile;
     private GPUImageView gpuImageView;
+    public String folderName = "GPUImage";
     public String photoFileName = "photo.jpg";
     private CameraLoader cameraLoader;
+    private ImageButton ibSave;
 
     public CameraFragment() {
         // Required empty public constructor
@@ -55,20 +57,16 @@ public class CameraFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // create implicit  intent to take a picture and return control to the calling application
-        // Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
         // requestPermissions(new String[]{Manifest.permission.CAMERA}, CAPTURE_IMAGE_REQUEST_CODE);
+        // requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         Log.i(TAG, "camera started");
-
-        photoFile = getPhotoFileUri(photoFileName);
-
+        
         Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.livefilter", photoFile);
 
         // tell application where you want output
         // intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
-
+        ibSave = view.findViewById(R.id.ibSaveButton);
         gpuImageView = view.findViewById(R.id.gpuimageview);
 
         cameraLoader = new CameraLoader(getActivity());
@@ -83,6 +81,58 @@ public class CameraFragment extends Fragment {
 
         // gpuImageView.setImage(fileProvider); // this loads image on the current thread, should be run in a thread
         Log.i(TAG, "image was set");
+
+        ibSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveImage();
+            }
+        });
+
+    }
+
+
+
+    private void saveImage() {
+        
+        //Bitmap takenImage = gpuImageView.getGPUImage().getBitmapWithFilterApplied();
+        Bitmap takenImage = null;
+        try {
+            takenImage = gpuImageView.capture();
+        } catch (InterruptedException e) {
+            Log.e(TAG, "camera interrupted", e);
+        }
+
+        // get root directory
+        Log.i(TAG, "attempting to access root directory");
+        String root = Environment.getExternalStorageDirectory().toString();
+        Log.i(TAG, "root directory " + root);
+        File savedDir = new File(root + "/" + folderName);
+        if(!savedDir.exists()) {
+            savedDir.mkdirs();
+            Log.i(TAG, "directory created");
+        }
+
+        // put time taken into file name
+        String timeTaken = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+
+        File file = new File(savedDir, "livefilter_" + timeTaken + ".jpg");
+        Log.i(TAG, "saving file " + file.getAbsolutePath());
+
+        // write bitmap to file
+
+        try {
+            Log.i(TAG, "saving image to file");
+            FileOutputStream out = new FileOutputStream(file);
+            takenImage.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            if(file.exists()){
+                Log.i(TAG, "file exists");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "problem finding or saving file", e);
+        }
 
     }
 
@@ -109,22 +159,4 @@ public class CameraFragment extends Fragment {
         cameraLoader.onPause();
     }
 
-    // helper to get photo file URI (string representing file)
-    // Returns the File for a photo stored on disk given the fileName
-    public File getPhotoFileUri(String fileName) {
-        // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
-        File mediaStorageDir = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), TAG);
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
-            Log.d(TAG, "failed to create directory");
-        }
-
-        Log.i(TAG, "creating new file");
-        // Return the file target for the photo based on filename
-        return new File(mediaStorageDir.getPath() + File.separator + fileName);
-
-    }
 }

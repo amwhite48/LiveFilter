@@ -203,7 +203,6 @@ public class CameraLoader {
                     Image image = imageReader.acquireNextImage();
                     if (image != null) {
                         if(onPreviewFrameListener != null) {
-                            Log.i(TAG, "image non null");
                             byte[] data = generateNV21Data(image);
                             onPreviewFrameListener.onPreviewFrame(data, image.getWidth(), image.getHeight());
                         }

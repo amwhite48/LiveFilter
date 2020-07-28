@@ -22,10 +22,6 @@ public class ImageUtils {
         int outputStride = 1;
         for (int i = 0; i < planes.length; i++) {
             switch (i) {
-                case 0:
-                    channelOffset = 0;
-                    outputStride = 1;
-                    break;
                 case 1:
                     channelOffset = width * height + 1;
                     outputStride = 2;
@@ -33,6 +29,11 @@ public class ImageUtils {
                 case 2:
                     channelOffset = width * height;
                     outputStride = 2;
+                    break;
+                    // by default, assume we are looking at 0th plane
+                default:
+                    channelOffset = 0;
+                    outputStride = 1;
                     break;
             }
             ByteBuffer buffer = planes[i].getBuffer();

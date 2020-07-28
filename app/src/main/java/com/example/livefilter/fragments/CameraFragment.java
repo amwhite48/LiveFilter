@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 
 import com.example.livefilter.R;
 import com.example.livefilter.models.CameraLoader;
@@ -34,12 +36,13 @@ public class CameraFragment extends Fragment {
     public static final int CAPTURE_IMAGE_REQUEST_CODE = 24;
     public static final int WRITE_REQUEST_CODE = 35;
 
-    private File photoFile;
-    private GPUImageView gpuImageView;
-    public String folderName = "GPUImage";
-    public String photoFileName = "photo.jpg";
+    public String folderName = "LiveFilter";
     private CameraLoader cameraLoader;
+
     private ImageButton ibSave;
+    private GPUImageView gpuImageView;
+    private SeekBar sbEffect;
+    private Spinner spFilter;
 
     public CameraFragment() {
         // Required empty public constructor
@@ -60,14 +63,17 @@ public class CameraFragment extends Fragment {
         // requestPermissions(new String[]{Manifest.permission.CAMERA}, CAPTURE_IMAGE_REQUEST_CODE);
         // requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         Log.i(TAG, "camera started");
-        
-        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.livefilter", photoFile);
+
+//        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.livefilter", photoFile);
 
         // tell application where you want output
         // intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
+        // set up image view
         ibSave = view.findViewById(R.id.ibSaveButton);
         gpuImageView = view.findViewById(R.id.gpuimageview);
+        sbEffect = view.findViewById(R.id.sbEffect);
+        spFilter = view.findViewById(R.id.spFilters);
 
         cameraLoader = new CameraLoader(getActivity());
         cameraLoader.setOnPreviewFrameListener(new CameraLoader.OnPreviewFrameListener() {
@@ -116,11 +122,11 @@ public class CameraFragment extends Fragment {
         // put time taken into file name
         String timeTaken = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
 
+        // make a new file
         File file = new File(savedDir, "livefilter_" + timeTaken + ".jpg");
         Log.i(TAG, "saving file " + file.getAbsolutePath());
 
         // write bitmap to file
-
         try {
             Log.i(TAG, "saving image to file");
             FileOutputStream out = new FileOutputStream(file);

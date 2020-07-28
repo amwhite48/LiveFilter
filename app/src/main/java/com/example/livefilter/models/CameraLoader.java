@@ -316,7 +316,7 @@ public class CameraLoader {
                 builder.set(CaptureRequest.CONTROL_AE_MODE, CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH);
                 cameraCaptureSession.setRepeatingRequest(builder.build(), null, null);
             } catch (CameraAccessException e) {
-                Log.e(TAG, "configuration of camera capture session failed due to camera access", e);
+                Log.e(TAG, "configuration of camera capture session failed, user must give permission to read camera", e);
             }
 
         }

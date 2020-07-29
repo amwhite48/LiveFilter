@@ -15,11 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 
 import com.example.livefilter.R;
+import com.example.livefilter.models.AppliedFilter;
 import com.example.livefilter.models.CameraLoader;
 
 import java.io.File;
@@ -29,6 +32,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import jp.co.cyberagent.android.gpuimage.GPUImageView;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSaturationFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
 
 
 public class CameraFragment extends Fragment {
@@ -43,6 +49,8 @@ public class CameraFragment extends Fragment {
     private GPUImageView gpuImageView;
     private SeekBar sbEffect;
     private Spinner spFilter;
+    private AppliedFilter appliedFilters;
+    private String currentFilter;
 
     public CameraFragment() {
         // Required empty public constructor
@@ -75,6 +83,7 @@ public class CameraFragment extends Fragment {
         sbEffect = view.findViewById(R.id.sbEffect);
         spFilter = view.findViewById(R.id.spFilters);
 
+        // start camera
         cameraLoader = new CameraLoader(getActivity());
         cameraLoader.setOnPreviewFrameListener(new CameraLoader.OnPreviewFrameListener() {
             @Override
@@ -88,6 +97,61 @@ public class CameraFragment extends Fragment {
         // gpuImageView.setImage(fileProvider); // this loads image on the current thread, should be run in a thread
         Log.i(TAG, "image was set");
 
+        // set up spinner for selecting filters
+        appliedFilters = new AppliedFilter();
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, appliedFilters.getEffectsList());
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // set adapter on Spinner
+        spFilter.setAdapter(arrayAdapter);
+
+        spFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.i(TAG, i + "th item selected");
+                Log.i(TAG, appliedFilters.getEffectsList()[i]);
+                currentFilter = appliedFilters.getEffectsList()[i];
+                // if selected filter isn't yet applied, add it
+                if(appliedFilters.filterApplied(currentFilter)) {
+                    // set seekbar to current value of given filter and refresh it
+                    sbEffect.setProgress(appliedFilters.getFilterValue(currentFilter));
+                    sbEffect.refreshDrawableState();
+                } else {
+                    // if filter not applied, add it
+                    appliedFilters.addFilter(currentFilter);
+                    gpuImageView.setFilter(appliedFilters.getFiltersApplied());
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        // set up adjustable filters with seekbar
+        sbEffect.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                // if value of seekbar has changed, update value of current filter
+                appliedFilters.adjustFilter(currentFilter, i);
+                // update image view with progress
+                gpuImageView.setFilter(appliedFilters.getFiltersApplied());
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+        // set up image save button
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

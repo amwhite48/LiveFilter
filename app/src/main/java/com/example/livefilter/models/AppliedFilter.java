@@ -26,6 +26,7 @@ public class AppliedFilter {
     // constructor that initializes filter group
     public AppliedFilter() {
         appliedEffects = new HashMap<>();
+        appliedFilters = new HashMap<>();
         filtersApplied = new GPUImageFilterGroup();
 
     }
@@ -48,35 +49,44 @@ public class AppliedFilter {
 
     // adjust value of a filter on a filter already in the group
     // seekbar has int values from 0 to 100
-    private void adjustFilter(String filterName, int value) {
+    public void adjustFilter(String filterName, int value) {
 
         switch(filterName) {
             case "brightness":
+                // replace value of applied effect
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
                 GPUImageBrightnessFilter brightnessFilter = (GPUImageBrightnessFilter) appliedFilters.get(filterName);
                 // brightness ranges from -1.0f to 1.0f
                 float brightness = (float)value / 50.0f - 1.0f;
                 brightnessFilter.setBrightness(brightness);
                 break;
             case "contrast":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
                 GPUImageContrastFilter contrastFilter = (GPUImageContrastFilter) appliedFilters.get(filterName);
                 // contrast ranges from 0.0f to 4.0f
                 float contrast = (float)value / 25.0f;
                 contrastFilter.setContrast(contrast);
                 break;
             case "hue":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
                 GPUImageHueFilter hueFilter = (GPUImageHueFilter) appliedFilters.get(filterName);
                 // hue ranges from 0.0f to 360.0f
                 float hue = (float) value * 3.6f;
                 hueFilter.setHue(hue);
                 break;
             case "saturation":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
                 GPUImageSaturationFilter saturationFilter = (GPUImageSaturationFilter) appliedFilters.get(filterName);
                 // saturation ranges from 0.0f to 2.0f
                 float saturation = (float) value / 50.0f;
                 saturationFilter.setSaturation(saturation);
                 break;
             default:
-                Log.i(TAG, "invalid filter");
+                Log.i(TAG, "invalid filter adjustment");
                 break;
 
         }
@@ -84,38 +94,44 @@ public class AppliedFilter {
     }
 
     // add filter to filter group if not already added
-    private void addFilter(String filterName) {
+    public void addFilter(String filterName) {
         // switch statement with all different filters
         switch (filterName) {
             case "brightness":
                 GPUImageFilter brightnessFilter = new GPUImageBrightnessFilter();
                 appliedFilters.put(filterName, brightnessFilter);
                 appliedEffects.put(filterName, 50);
+                filtersApplied.addFilter(brightnessFilter);
                 break;
             case "contrast":
                 GPUImageFilter contrastFilter = new GPUImageContrastFilter();
                 appliedFilters.put(filterName, contrastFilter);
                 appliedEffects.put(filterName, 25);
+                filtersApplied.addFilter(contrastFilter);
                 break;
             case "hue":
                 GPUImageFilter hueFilter = new GPUImageHueFilter();
                 appliedFilters.put(filterName, hueFilter);
                 appliedEffects.put(filterName, 25);
+                filtersApplied.addFilter(hueFilter);
                 break;
             case "grayscale":
                 GPUImageFilter grayscaleFilter = new GPUImageGrayscaleFilter();
                 appliedFilters.put(filterName, grayscaleFilter);
                 appliedEffects.put(filterName, 100);
+                filtersApplied.addFilter(grayscaleFilter);
                 break;
             case "sepia":
                 GPUImageFilter sepiaFilter = new GPUImageSepiaToneFilter();
                 appliedFilters.put(filterName, sepiaFilter);
                 appliedEffects.put(filterName, 100);
+                filtersApplied.addFilter(sepiaFilter);
                 break;
             case "saturation":
                 GPUImageFilter saturationFilter = new GPUImageSaturationFilter();
                 appliedFilters.put(filterName, saturationFilter);
                 appliedEffects.put(filterName, 50);
+                filtersApplied.addFilter(saturationFilter);
                 break;
             default:
                 Log.i(TAG, "invalid filter name");

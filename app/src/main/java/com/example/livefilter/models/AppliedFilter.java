@@ -51,6 +51,8 @@ public class AppliedFilter {
     // seekbar has int values from 0 to 100
     public void adjustFilter(String filterName, int value) {
 
+        //ToDo: errorcheck value that gets passed in
+
         switch(filterName) {
             case "brightness":
                 // replace value of applied effect
@@ -140,6 +142,7 @@ public class AppliedFilter {
 
     }
 
+    // check numerical value of String that should be present on seekbar
     public int getFilterValue(String filterName) {
         // ToDo: error check String
         return appliedEffects.get(filterName);

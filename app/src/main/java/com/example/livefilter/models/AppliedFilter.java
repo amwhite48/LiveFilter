@@ -3,6 +3,7 @@ package com.example.livefilter.models;
 import android.util.Log;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter;
@@ -147,6 +148,30 @@ public class AppliedFilter {
         // ToDo: error check String
         return appliedEffects.get(filterName);
     }
-    
+
+    // get a list of applied filters for representing filter as a parse object
+    public String[] getAppliedNames() {
+        String[] appliedNames = new String[appliedEffects.size()];
+        int counter = 0;
+        for(Map.Entry effect: appliedEffects.entrySet()) {
+            appliedNames[counter] = (String) effect.getKey();
+            counter++;
+        }
+        return appliedNames;
+    }
+
+    // given a list of effects applied, get the intensities in the same order
+    public int[] getAppliedIntensities(String[] filterNames) {
+        // ToDo: better error checking
+        int[] filterIntensities = new int[filterNames.length];
+
+        for(int i = 0; i < filterNames.length; i++) {
+            if(appliedEffects.containsKey(filterNames[i])) {
+                filterIntensities[i] = appliedEffects.get(filterNames[i]);
+            }
+        }
+
+        return filterIntensities;
+    }
 
 }

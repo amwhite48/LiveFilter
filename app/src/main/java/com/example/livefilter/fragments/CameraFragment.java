@@ -1,5 +1,6 @@
 package com.example.livefilter.fragments;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.livefilter.PostActivity;
 import com.example.livefilter.R;
 import com.example.livefilter.models.AppliedFilter;
 import com.example.livefilter.models.CameraLoader;
@@ -52,6 +54,7 @@ public class CameraFragment extends Fragment {
     private Spinner spFilter;
     private AppliedFilter appliedFilters;
     private String currentFilter;
+    private String currentFilePath;
 
     public CameraFragment() {
         // Required empty public constructor
@@ -157,6 +160,8 @@ public class CameraFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 saveImage();
+                // when image is saved, launch post activity
+                launchPostActivity();
             }
         });
 
@@ -201,10 +206,28 @@ public class CameraFragment extends Fragment {
             if(file.exists()){
                 Log.i(TAG, "file exists");
                 Toast.makeText(getContext(), "saved file " + file.getAbsolutePath(), Toast.LENGTH_SHORT);
+                currentFilePath = file.getAbsolutePath();
             }
         } catch (IOException e) {
             Log.e(TAG, "problem finding or saving file", e);
         }
+
+    }
+
+    // launch detail to post and share filter
+    private void launchPostActivity() {
+        // get filter information to pass to post activity
+        String[] effectNames = appliedFilters.getAppliedNames();
+        int[] effectIntensities = appliedFilters.getAppliedIntensities(effectNames);
+
+        Intent intent = new Intent(getContext(), PostActivity.class);
+
+        // pass in filter and photo info into new intent
+        intent.putExtra("effectNames", effectNames);
+        intent.putExtra("effectIntensities", effectIntensities);
+        intent.putExtra("photoFilePath", currentFilePath);
+
+        getContext().startActivity(intent);
 
     }
 

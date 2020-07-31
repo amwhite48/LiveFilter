@@ -6,6 +6,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.parceler.Parcel;
 
 @ParseClassName("Filter")
@@ -17,6 +18,8 @@ public class FilterPost extends ParseObject {
     public static final String KEY_NAME = "filterName";
     public static final String KEY_BEFORE = "beforeImage";
     public static final String KEY_AFTER = "afterImage";
+    public static final String KEY_EFFECT_NAMES = "effectNames";
+    public static final String KEY_EFFECT_INTENSITIES = "effectIntensities";
 
     public FilterPost() {
     }
@@ -59,6 +62,22 @@ public class FilterPost extends ParseObject {
 
     public void setUser(ParseUser parseUser) {
         put(KEY_USER, parseUser);
+    }
+
+    public JSONArray getEffectNames() {
+        return getJSONArray(KEY_EFFECT_NAMES);
+    }
+
+    public void setEffectNames(JSONArray effectNames) {
+        put(KEY_EFFECT_NAMES, effectNames);
+    }
+
+    public JSONArray getEffectIntensities() {
+        return getJSONArray(KEY_EFFECT_INTENSITIES);
+    }
+
+    public void setEffectIntensities(JSONArray effectIntensities) {
+        put(KEY_EFFECT_INTENSITIES, effectIntensities);
     }
 
 }

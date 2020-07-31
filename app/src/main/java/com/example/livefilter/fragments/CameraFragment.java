@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.livefilter.R;
 import com.example.livefilter.models.AppliedFilter;
@@ -199,6 +200,7 @@ public class CameraFragment extends Fragment {
             out.close();
             if(file.exists()){
                 Log.i(TAG, "file exists");
+                Toast.makeText(getContext(), "saved file " + file.getAbsolutePath(), Toast.LENGTH_SHORT);
             }
         } catch (IOException e) {
             Log.e(TAG, "problem finding or saving file", e);

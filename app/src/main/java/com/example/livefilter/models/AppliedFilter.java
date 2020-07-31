@@ -147,5 +147,6 @@ public class AppliedFilter {
         // ToDo: error check String
         return appliedEffects.get(filterName);
     }
+    
 
 }

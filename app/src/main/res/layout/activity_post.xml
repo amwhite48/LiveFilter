@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PostActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/ivFilteredImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="104dp"
+        tools:layout_editor_absoluteY="33dp"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/etFilterName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="filter name" />
+
+    <EditText
+        android:id="@+id/etFilterDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="filter description" />
+
+    <Button
+        android:id="@+id/btPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="post" />
+</LinearLayout>

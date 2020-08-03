@@ -76,10 +76,6 @@ public class CameraFragment extends Fragment {
         // requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST_CODE);
         Log.i(TAG, "camera started");
 
-//        Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.codepath.fileprovider.livefilter", photoFile);
-
-        // tell application where you want output
-        // intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // set up image view
         ibSave = view.findViewById(R.id.ibSaveButton);
@@ -101,8 +97,10 @@ public class CameraFragment extends Fragment {
         // gpuImageView.setImage(fileProvider); // this loads image on the current thread, should be run in a thread
         Log.i(TAG, "image was set");
 
+        // if camera has filter details given to it, apply those to camera
+        setUpAppliedFilter();
+
         // set up spinner for selecting filters
-        appliedFilters = new AppliedFilter();
         ArrayAdapter arrayAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_spinner_item, appliedFilters.getEffectsList());
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // set adapter on Spinner
@@ -167,6 +165,20 @@ public class CameraFragment extends Fragment {
 
     }
 
+    private void setUpAppliedFilter() {
+
+        Bundle bundle = this.getArguments();
+        // if fragment was given filter info, add effects to appliedFilter
+        if(bundle != null) {
+            String[] appliedEffects = bundle.getStringArray("effectNames");
+            int[] appliedIntensities = bundle.getIntArray("effectIntensities");
+            appliedFilters = new AppliedFilter(appliedEffects, appliedIntensities);
+        } else {
+            // if not given filter data, make a new applied filter group
+            appliedFilters = new AppliedFilter();
+        }
+
+    }
 
 
     private void saveImage() {

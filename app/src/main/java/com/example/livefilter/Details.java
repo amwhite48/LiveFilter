@@ -2,7 +2,9 @@ package com.example.livefilter;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +56,22 @@ public class Details extends AppCompatActivity {
             Glide.with(this).load(afterImage.getUrl()).into(ivAfter);
         }
 
+        // when button is clicked, launch camera fragment with filter applied
+        btTryFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCameraWithFilter();
 
+            }
+        });
+
+
+    }
+
+    private void launchCameraWithFilter() {
+        Intent i = new Intent(this, MainActivity.class);
+        i.putExtra("cameraLaunch", 1);
+        i.putExtra(FilterPost.class.getSimpleName(), Parcels.wrap(filterPost));
+        startActivity(i);
     }
 }

@@ -32,6 +32,19 @@ public class AppliedFilter {
 
     }
 
+    // alternate constructor that generates a filter from the values passed in
+    public AppliedFilter(String[] effectNames, int[] effectIntensities) {
+        appliedEffects = new HashMap<>();
+        appliedFilters = new HashMap<>();
+        filtersApplied = new GPUImageFilterGroup();
+
+        // add each filter with given intensity to camera
+        for(int i = 0; i < effectNames.length; i++) {
+            this.addFilter(effectNames[i]);
+            this.adjustFilter(effectNames[i], effectIntensities[i]);
+        }
+    }
+
 
     // check if given filter is applied
     public boolean filterApplied(String filterName) {

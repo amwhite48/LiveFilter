@@ -168,6 +168,7 @@ public class CameraFragment extends Fragment {
 
     }
 
+    // update rotation of imageview
     private void updateGPUImageViewRotation() {
         Rotation rotation = getRotation(cameraLoader.getCameraOrientation());
         // not flipped either direction by default

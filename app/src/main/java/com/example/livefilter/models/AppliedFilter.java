@@ -7,17 +7,23 @@ import java.util.Map;
 
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageBrightnessFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageContrastFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageExposureFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageGaussianBlurFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageGrayscaleFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageHighlightShadowFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageHueFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImagePosterizeFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSaturationFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSharpenFilter;
+import jp.co.cyberagent.android.gpuimage.filter.GPUImageSwirlFilter;
 
 public class AppliedFilter {
 
     public static final String TAG = "AppliedFilter Object";
-    public static final String[] EFFECTS = {"brightness", "contrast", "hue", "grayscale", "sepia", "saturation"};
+    public static final String[] EFFECTS = {"brightness", "contrast", "hue", "grayscale", "sepia", "saturation", "swirl", "gaussian blur", "sharpen", "posterize", "highlights", "shadows", "exposure"};
 
     HashMap<String, Integer> appliedEffects;
     HashMap<String, GPUImageFilter> appliedFilters;
@@ -101,6 +107,62 @@ public class AppliedFilter {
                 float saturation = (float) value / 50.0f;
                 saturationFilter.setSaturation(saturation);
                 break;
+            case "swirl":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageSwirlFilter swirlFilter = (GPUImageSwirlFilter) appliedFilters.get(filterName);
+                // swirl radius ranges from 0.0f to 1.0f
+                float radius = (float) value / 100.0f;
+                swirlFilter.setRadius(radius);
+                break;
+            case "gaussian blur":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageGaussianBlurFilter gaussianBlurFilter = (GPUImageGaussianBlurFilter) appliedFilters.get(filterName);
+                // gaussian blur radius ranges from 0.0f to 1.0f
+                float blurSize = (float) value / 100.0f;
+                gaussianBlurFilter.setBlurSize(blurSize);
+                break;
+            case "sharpen":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageSharpenFilter sharpenFilter = (GPUImageSharpenFilter) appliedFilters.get(filterName);
+                // sharpen intensities ranges from -4.0f to 4.0f
+                float sharpness = (float) value / 12.5f - 4.0f;
+                sharpenFilter.setSharpness(sharpness);
+                break;
+            case "posterize":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImagePosterizeFilter posterizeFilter = (GPUImagePosterizeFilter) appliedFilters.get(filterName);
+                // posterize levels ranges from 1 to 256
+                float floatLevels = (float) value * 25.5f + 1f;
+                int levels = (int)floatLevels;
+                posterizeFilter.setColorLevels(levels);
+                break;
+            case "highlights":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageHighlightShadowFilter highlightFilter = (GPUImageHighlightShadowFilter) appliedFilters.get(filterName);
+                // highlight ranges from 0.0f to 1.0f
+                float highlight = (float) value / 100.0f;
+                highlightFilter.setHighlights(highlight);
+                break;
+            case "shadows":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageHighlightShadowFilter shadowFilter = (GPUImageHighlightShadowFilter) appliedFilters.get(filterName);
+                // shadow intensities ranges from 0.0f to 1.0f
+                float shadow = (float) value / 100.0f;
+                shadowFilter.setShadows(shadow);
+                break;
+            case "exposure":
+                appliedEffects.remove(filterName);
+                appliedEffects.put(filterName, value);
+                GPUImageExposureFilter exposureFilter = (GPUImageExposureFilter) appliedFilters.get(filterName);
+                // exposure intensities ranges from -10.0f to 10.0f
+                float exposure = (float) value / 5.0f - 10.0f;
+                exposureFilter.setExposure(exposure);
             default:
                 Log.i(TAG, "invalid filter adjustment");
                 break;
@@ -148,6 +210,54 @@ public class AppliedFilter {
                 appliedFilters.put(filterName, saturationFilter);
                 appliedEffects.put(filterName, 50);
                 filtersApplied.addFilter(saturationFilter);
+                break;
+            case "swirl":
+                GPUImageFilter swirlFilter = new GPUImageSwirlFilter();
+                appliedFilters.put(filterName, swirlFilter);
+                appliedEffects.put(filterName, 50);
+                filtersApplied.addFilter(swirlFilter);
+                break;
+            case "gaussian blur":
+                GPUImageFilter gaussianBlurFilter = new GPUImageGaussianBlurFilter();
+                appliedFilters.put(filterName, gaussianBlurFilter);
+                appliedEffects.put(filterName, 100);
+                filtersApplied.addFilter(gaussianBlurFilter);
+                break;
+            case "sharpen":
+                GPUImageFilter sharpenFilter = new GPUImageSharpenFilter();
+                appliedFilters.put(filterName, sharpenFilter);
+                appliedEffects.put(filterName, 50);
+                filtersApplied.addFilter(sharpenFilter);
+                break;
+            case "posterize":
+                GPUImageFilter posterizeFilter = new GPUImagePosterizeFilter();
+                appliedFilters.put(filterName, posterizeFilter);
+                appliedEffects.put(filterName, 4);
+                filtersApplied.addFilter(posterizeFilter);
+                break;
+            case "highlights":
+                GPUImageFilter highlightFilter = new GPUImageHighlightShadowFilter();
+                appliedFilters.put(filterName, highlightFilter);
+                appliedEffects.put(filterName, 100);
+                filtersApplied.addFilter(highlightFilter);
+                // highlight and shadows use same filter type
+                appliedFilters.put("shadows", highlightFilter);
+                appliedEffects.put("shadows", 0);
+                break;
+            case "shadows":
+                GPUImageFilter shadowFilter = new GPUImageHighlightShadowFilter();
+                appliedFilters.put(filterName, shadowFilter);
+                appliedEffects.put(filterName, 0);
+                filtersApplied.addFilter(shadowFilter);
+                // highlight and shadows use same filter type
+                appliedFilters.put("highlights", shadowFilter);
+                appliedEffects.put("highlights", 100);
+                break;
+            case "exposure":
+                GPUImageFilter exposureFilter = new GPUImageExposureFilter();
+                appliedFilters.put(filterName, exposureFilter);
+                appliedEffects.put(filterName, 50);
+                filtersApplied.addFilter(exposureFilter);
                 break;
             default:
                 Log.i(TAG, "invalid filter name");

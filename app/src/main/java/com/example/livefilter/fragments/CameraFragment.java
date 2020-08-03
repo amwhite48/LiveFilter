@@ -38,6 +38,7 @@ import jp.co.cyberagent.android.gpuimage.GPUImageView;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageFilterGroup;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSaturationFilter;
 import jp.co.cyberagent.android.gpuimage.filter.GPUImageSepiaToneFilter;
+import jp.co.cyberagent.android.gpuimage.util.Rotation;
 
 
 public class CameraFragment extends Fragment {
@@ -92,6 +93,8 @@ public class CameraFragment extends Fragment {
             }
         });
         gpuImageView.setRatio(0.75f); // set aspect ratio
+        // set up rotation
+        updateGPUImageViewRotation();
         gpuImageView.setRenderMode(GPUImageView.RENDERMODE_CONTINUOUSLY);
 
         // gpuImageView.setImage(fileProvider); // this loads image on the current thread, should be run in a thread
@@ -163,6 +166,36 @@ public class CameraFragment extends Fragment {
             }
         });
 
+    }
+
+    private void updateGPUImageViewRotation() {
+        Rotation rotation = getRotation(cameraLoader.getCameraOrientation());
+        // not flipped either direction by default
+        boolean flipHoriz = false;
+        boolean flipVert = false;
+        // if camera is front facing, it needs to be flipped horizontally
+        if (cameraLoader.isFrontFacing()) { // Front-facing cameras need mirroring
+            if (rotation == Rotation.NORMAL || rotation == Rotation.ROTATION_180) {
+                flipHoriz = true;
+            } else {
+                flipVert = true;
+            }
+        }
+        gpuImageView.getGPUImage().setRotation(rotation, flipHoriz, flipVert);
+    }
+
+    private Rotation getRotation(int orientation) {
+        //  return the current orientation of the camera as a Rotation object
+        switch (orientation) {
+            case 90:
+                return Rotation.ROTATION_90;
+            case 180:
+                return Rotation.ROTATION_180;
+            case 270:
+                return Rotation.ROTATION_270;
+            default:
+                return Rotation.NORMAL;
+        }
     }
 
     private void setUpAppliedFilter() {

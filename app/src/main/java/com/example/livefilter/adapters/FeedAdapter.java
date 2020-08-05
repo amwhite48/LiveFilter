@@ -58,7 +58,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         private TextView tvName;
         private TextView tvDescription;
         private TextView tvUsername;
-        private ImageView ivBefore;
         private ImageView ivAfter;
 
         public ViewHolder(@NonNull View itemView) {
@@ -67,7 +66,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvName = itemView.findViewById(R.id.tvName);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvUsername = itemView.findViewById(R.id.tvUsername);
-            ivBefore = itemView.findViewById(R.id.ivBefore);
             ivAfter = itemView.findViewById(R.id.ivAfter);
 
             // add OnClickListener to itemView
@@ -81,11 +79,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             tvUsername.setText(filterPost.getUser().getUsername());
             tvDescription.setText(filterPost.getDescription());
             // load images using Glide
-            ParseFile beforeImage = filterPost.getBefore();
             ParseFile afterImage = filterPost.getAfter();
-            if(beforeImage != null) {
-                Glide.with(context).load(beforeImage.getUrl()).into(ivBefore);
-            }
             if(afterImage != null) {
                 Glide.with(context).load(afterImage.getUrl()).into(ivAfter);
             }

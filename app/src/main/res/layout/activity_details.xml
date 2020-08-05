@@ -15,29 +15,14 @@
         android:textSize="24sp"
         tools:text="Filter name" />
 
-    <LinearLayout
-        android:id="@+id/imageContainerD"
+
+    <ImageView
+        android:id="@+id/ivAfterD"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:orientation="horizontal"
-        android:padding="6dp">
-
-        <ImageView
-            android:id="@+id/ivBeforeD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
-
-        <ImageView
-            android:id="@+id/ivAfterD"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
-    </LinearLayout>
-
+        tools:srcCompat="@tools:sample/avatars"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        />
     <TextView
         android:id="@+id/tvUsernameD"
         android:layout_width="match_parent"

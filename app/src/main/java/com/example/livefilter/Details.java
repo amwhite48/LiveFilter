@@ -22,9 +22,7 @@ public class Details extends AppCompatActivity {
     private TextView tvName;
     private TextView tvDescription;
     private TextView tvUsername;
-    private ImageView ivBefore;
     private ImageView ivAfter;
-
     private Button btTryFilter;
 
     @Override
@@ -38,7 +36,6 @@ public class Details extends AppCompatActivity {
         tvName = findViewById(R.id.tvNameD);
         tvDescription = findViewById(R.id.tvDescriptionD);
         tvUsername = findViewById(R.id.tvUsernameD);
-        ivBefore = findViewById(R.id.ivBeforeD);
         ivAfter = findViewById(R.id.ivAfterD);
 
         btTryFilter = findViewById(R.id.btTryFilter);
@@ -47,11 +44,7 @@ public class Details extends AppCompatActivity {
         tvUsername.setText(filterPost.getUser().getUsername());
         tvDescription.setText(filterPost.getDescription());
         // load images using Glide
-        ParseFile beforeImage = filterPost.getBefore();
         ParseFile afterImage = filterPost.getAfter();
-        if(beforeImage != null) {
-            Glide.with(this).load(beforeImage.getUrl()).into(ivBefore);
-        }
         if(afterImage != null) {
             Glide.with(this).load(afterImage.getUrl()).into(ivAfter);
         }

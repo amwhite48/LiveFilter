@@ -16,7 +16,6 @@ public class FilterPost extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_NAME = "filterName";
-    public static final String KEY_BEFORE = "beforeImage";
     public static final String KEY_AFTER = "afterImage";
     public static final String KEY_EFFECT_NAMES = "effectNames";
     public static final String KEY_EFFECT_INTENSITIES = "effectIntensities";
@@ -38,14 +37,6 @@ public class FilterPost extends ParseObject {
 
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
-    }
-
-    public ParseFile getBefore() {
-        return getParseFile(KEY_BEFORE);
-    }
-
-    public void setBefore(ParseFile parseFile) {
-        put(KEY_BEFORE, parseFile);
     }
 
     public ParseFile getAfter() {

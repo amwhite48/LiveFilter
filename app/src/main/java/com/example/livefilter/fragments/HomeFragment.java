@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     protected List<FilterPost> allPosts;
     private Button btRecommend;
     private List<FilterPost> usersPosts;
+    private boolean recommending;
 
 
     public HomeFragment() {
@@ -62,6 +63,9 @@ public class HomeFragment extends Fragment {
         rvFilters = view.findViewById(R.id.rvFilters);
         btRecommend = view.findViewById(R.id.btRecommend);
 
+        // by default, timeline is chronological, or we are not recommending
+        recommending = false;
+
         allPosts = new ArrayList<>();
         adapter = new FeedAdapter(view.getContext(), allPosts);
 
@@ -76,7 +80,19 @@ public class HomeFragment extends Fragment {
         btRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sortByUserSimilarity();
+                if(!recommending) {
+                    sortByUserSimilarity();
+                    recommending = true;
+                    btRecommend.setText("show me the newest filters");
+                    // scroll recyclerview back to top
+                    rvFilters.smoothScrollToPosition(0);
+                } else {
+                    queryFilters();
+                    recommending = false;
+                    btRecommend.setText("recommend me filters");
+                    // scroll recyclerview back to top
+                    rvFilters.smoothScrollToPosition(0);
+                }
             }
         });
     }
@@ -104,6 +120,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 // save received posts, notify adapter of changes
+                allPosts.clear();
                 allPosts.addAll(filterPosts);
                 adapter.notifyDataSetChanged();
             }
@@ -165,6 +182,7 @@ public class HomeFragment extends Fragment {
 
                 // add all the sorted posts to the adapter
                 allPosts.clear();
+                // add posts to adapter so that the posts with the lowest distance from the other filters are at the top
                 for(int i = sortedFilters.size() - 1; i >= 0; i--) {
                     allPosts.add(sortedFilters.size() - i - 1, sortedFilters.get(i).getFilterPost());
                     Log.i(TAG, "Filter " + sortedFilters.get(i).getFilterPost().getName() + " has difference level " + sortedFilters.get(i).getCloseness());

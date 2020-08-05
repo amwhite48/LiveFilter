@@ -23,12 +23,14 @@
         android:layout_height="400dp"
         android:scaleType="centerCrop"
         />
+
     <TextView
         android:id="@+id/tvUsernameD"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
         android:layout_marginTop="6dp"
+        android:textColor="@color/colorPrimaryDark"
         tools:text="username" />
 
     <TextView

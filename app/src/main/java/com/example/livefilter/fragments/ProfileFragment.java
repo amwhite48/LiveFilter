@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -60,6 +61,11 @@ public class ProfileFragment extends Fragment {
         btLogout =  view.findViewById(R.id.btLogOut);
         // set recyclerview to one from profile view
         rvFilters = view.findViewById(R.id.rvProPosts);
+
+        // set up dividing space in between recyclerview items
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(view.getContext().getDrawable(R.drawable.divider));
+        rvFilters.addItemDecoration(itemDecoration);
 
         myPosts = new ArrayList<>();
         adapter = new FeedAdapter(view.getContext(), myPosts);

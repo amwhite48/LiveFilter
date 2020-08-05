@@ -13,7 +13,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp">
 
             <TextView
                 android:id="@+id/tvProfName"
@@ -34,7 +36,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProPosts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp" />
 
 
     </LinearLayout>

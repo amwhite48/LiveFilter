@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -63,6 +64,12 @@ public class HomeFragment extends Fragment {
         rvFilters = view.findViewById(R.id.rvFilters);
         btRecommend = view.findViewById(R.id.btRecommend);
 
+        // set up dividing space in between recyclerview items
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(view.getContext().getDrawable(R.drawable.divider));
+        rvFilters.addItemDecoration(itemDecoration);
+
+
         // by default, timeline is chronological, or we are not recommending
         recommending = false;
 
@@ -80,6 +87,7 @@ public class HomeFragment extends Fragment {
         btRecommend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // button switches recommendation modes
                 if(!recommending) {
                     sortByUserSimilarity();
                     recommending = true;

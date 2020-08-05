@@ -2,6 +2,8 @@ package com.example.livefilter.models;
 
 import android.util.Log;
 
+import com.example.livefilter.Details;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ public class AppliedFilter {
 
     public static final String TAG = "AppliedFilter Object";
     public static final String[] EFFECTS = {"brightness", "contrast", "hue", "grayscale", "sepia", "saturation", "swirl", "gaussian blur", "sharpen", "posterize", "highlights", "shadows", "exposure"};
+    public static final int[] DEFAULT_INTENSITIES = {50, 25, 25, 100, 100, 50, 50, 100, 50, 4, 100, 0, 50};
 
     HashMap<String, Integer> appliedEffects;
     HashMap<String, GPUImageFilter> appliedFilters;
@@ -60,6 +63,11 @@ public class AppliedFilter {
     // return list of all possible effects
     public String[] getEffectsList() {
         return EFFECTS;
+    }
+
+    // return list of default intensities
+    public int[] getDefaultIntensities() {
+        return DEFAULT_INTENSITIES;
     }
 
     // get filters applied and add to camera
@@ -136,7 +144,7 @@ public class AppliedFilter {
                 appliedEffects.put(filterName, value);
                 GPUImagePosterizeFilter posterizeFilter = (GPUImagePosterizeFilter) appliedFilters.get(filterName);
                 // posterize levels ranges from 1 to 256
-                float floatLevels = (float) value * 25.5f + 1f;
+                float floatLevels = (float) value * 2.55f + 1f;
                 int levels = (int)floatLevels;
                 posterizeFilter.setColorLevels(levels);
                 break;

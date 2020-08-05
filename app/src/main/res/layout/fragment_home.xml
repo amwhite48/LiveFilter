@@ -5,10 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".fragments.HomeFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvFilters"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:paddingBottom="8dp" />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btRecommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="recommend me filters" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFilters"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:paddingBottom="8dp" />
+    </LinearLayout>
 </FrameLayout>

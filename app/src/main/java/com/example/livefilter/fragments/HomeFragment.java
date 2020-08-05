@@ -165,8 +165,9 @@ public class HomeFragment extends Fragment {
 
                 // add all the sorted posts to the adapter
                 allPosts.clear();
-                for(int i = 0; i < sortedFilters.size(); i++) {
-                    allPosts.add(i, sortedFilters.get(i).getFilterPost());
+                for(int i = sortedFilters.size() - 1; i >= 0; i--) {
+                    allPosts.add(sortedFilters.size() - i - 1, sortedFilters.get(i).getFilterPost());
+                    Log.i(TAG, "Filter " + sortedFilters.get(i).getFilterPost().getName() + " has difference level " + sortedFilters.get(i).getCloseness());
                 }
                 adapter.notifyDataSetChanged();
 

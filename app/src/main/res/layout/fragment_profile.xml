@@ -22,8 +22,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingStart="12dp"
+                android:textColor="@android:color/black"
                 android:textSize="24sp"
                 tools:text="username" />
+
+            <Button
+                android:id="@+id/btPreferences"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="settings" />
 
             <Button
                 android:id="@+id/btLogOut"

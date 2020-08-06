@@ -55,8 +55,8 @@
                 android:id="@+id/ibSaveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="?android:attr/listChoiceIndicatorSingle" />
+                android:layout_weight="0.8"
+                android:src="@drawable/ic_baseline_camera_24" />
         </LinearLayout>
 
         <!-- surface_view or texture_view -->

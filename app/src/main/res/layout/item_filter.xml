@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:fontFamily="serif"
         android:paddingBottom="3dp"
         android:textAlignment="center"
         android:textColor="@android:color/background_dark"

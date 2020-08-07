@@ -161,7 +161,9 @@ public class CameraFragment extends Fragment {
         ibSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ibSave.setBackground(getResources().getDrawable(R.drawable.rounded_corner_darkened));
                 saveImage();
+                ibSave.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button));
                 // when image is saved, launch post activity
                 launchPostActivity();
             }

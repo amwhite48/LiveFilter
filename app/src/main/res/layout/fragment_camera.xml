@@ -55,8 +55,11 @@
                 android:id="@+id/ibSaveButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="0.8"
-                android:src="@drawable/ic_baseline_camera_24" />
+                android:background="@drawable/rounded_corners_button"
+                android:src="@drawable/ic_baseline_camera_24"
+                android:tint="#FFFFFF" />
         </LinearLayout>
 
         <!-- surface_view or texture_view -->

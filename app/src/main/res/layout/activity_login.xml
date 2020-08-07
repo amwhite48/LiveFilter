@@ -25,11 +25,19 @@
         android:id="@+id/btLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="login" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/rounded_corner_darkened"
+        android:text="login"
+        android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="sign up" />
+        android:text="sign up"
+        android:background="@drawable/rounded_corner_darkened"
+        android:layout_margin="8dp"
+        android:textColor="#FFFFFF"/>
 </LinearLayout>

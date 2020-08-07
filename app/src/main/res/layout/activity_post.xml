@@ -33,5 +33,8 @@
         android:id="@+id/btPost"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="post" />
+        android:text="post"
+        android:background="@drawable/rounded_corner_darkened"
+        android:layout_margin="8dp"
+        android:textColor="#FFFFFF"/>
 </LinearLayout>

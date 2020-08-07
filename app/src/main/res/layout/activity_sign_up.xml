@@ -32,6 +32,9 @@
         android:id="@+id/btSignUpSU"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="sign up" />
+        android:text="sign up"
+        android:background="@drawable/rounded_corner_darkened"
+        android:layout_margin="8dp"
+        android:textColor="#FFFFFF"/>
 
 </LinearLayout>

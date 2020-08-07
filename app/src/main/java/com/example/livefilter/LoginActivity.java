@@ -1,5 +1,6 @@
 package com.example.livefilter;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -30,6 +31,10 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btLogin = findViewById(R.id.btLogin);
         btSignup = findViewById(R.id.btSignUp);
+
+        // set up custom actionbar
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
 
         // if someone is logged in (persisting signin), navigate to main activity instead of login activity
         if(ParseUser.getCurrentUser() != null) {

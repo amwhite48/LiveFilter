@@ -1,5 +1,6 @@
 package com.example.livefilter;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -31,6 +32,10 @@ public class Details extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         // unwrap filterPost from intent
         filterPost = Parcels.unwrap(getIntent().getParcelableExtra(FilterPost.class.getSimpleName()));
+
+        // set up custom actionbar
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
 
         // find views for view elements of filterPost
         tvName = findViewById(R.id.tvNameD);

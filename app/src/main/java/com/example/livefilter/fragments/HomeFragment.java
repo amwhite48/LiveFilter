@@ -41,6 +41,7 @@ public class HomeFragment extends Fragment {
     protected FeedAdapter adapter;
     protected List<FilterPost> allPosts;
     private Button btRecommend;
+    private Button btNewest;
     private List<FilterPost> usersPosts;
     private boolean recommending;
 
@@ -63,6 +64,10 @@ public class HomeFragment extends Fragment {
 
         rvFilters = view.findViewById(R.id.rvFilters);
         btRecommend = view.findViewById(R.id.btRecommend);
+        btNewest = view.findViewById(R.id.btNewest);
+
+        btNewest.setBackground(getResources().getDrawable(R.drawable.rounded_corner_darkened));
+
 
         // set up dividing space in between recyclerview items
         DividerItemDecoration itemDecoration = new DividerItemDecoration(view.getContext(), DividerItemDecoration.VERTICAL);
@@ -81,7 +86,7 @@ public class HomeFragment extends Fragment {
         // set layout manager on recyclerview
         rvFilters.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
-        // get filters from parse
+        // get filters from parse, newest first by default
         queryFilters();
 
         btRecommend.setOnClickListener(new View.OnClickListener() {
@@ -91,16 +96,29 @@ public class HomeFragment extends Fragment {
                 if(!recommending) {
                     sortByUserSimilarity();
                     recommending = true;
-                    btRecommend.setText("show me the newest filters");
                     // scroll recyclerview back to top
                     rvFilters.smoothScrollToPosition(0);
-                } else {
+                    // darken recommending button and set other button to lightened background
+                    btRecommend.setBackground(getResources().getDrawable(R.drawable.rounded_corner_darkened));
+                    btNewest.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button));
+                }
+            }
+        });
+
+        btNewest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // if previously recommending filters, switch to showing newest filters
+                if (recommending) {
                     queryFilters();
                     recommending = false;
-                    btRecommend.setText("recommend me filters");
                     // scroll recyclerview back to top
                     rvFilters.smoothScrollToPosition(0);
+                    // darken newest button
+                    btNewest.setBackground(getResources().getDrawable(R.drawable.rounded_corner_darkened));
+                    btRecommend.setBackground(getResources().getDrawable(R.drawable.rounded_corners_button));
                 }
+
             }
         });
     }

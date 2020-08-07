@@ -1,6 +1,7 @@
 package com.example.livefilter;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -24,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "MainActivity";
     final FragmentManager fragmentManager = getSupportFragmentManager();
-    private BottomNavigationView bottomNavigationView;
-    boolean launchCameraWithFilter = false;
+    private BottomNavigationView bottomNavigationView;boolean launchCameraWithFilter = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         launchCameraWithFilter = getIntent().getIntExtra("cameraLaunch", 0) == 1;
+
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
